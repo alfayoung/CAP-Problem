@@ -2,7 +2,9 @@ import time
 import random
 
 class System:
+    # attribute variable = public
     def __init__(self, n, k, R):
+        # instance variable = private
         self.R = R
         self.n = n
         self.k = k
@@ -125,6 +127,8 @@ class System:
                     bcnt += 1
             ans = ans + (-1)**bcnt * tmp
         return ans
+    def curModel(self): # which model to use
+        return self.LinConF()
 
 def main():
     n = 15

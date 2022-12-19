@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 def Importance(x, p, sys, R):
     sys.R = [R[p[i]] if i != x else 1 for i in range(0, sys.n + 1)]
-    ret = sys.LinConG()
+    ret = sys.curModel()
     sys.R = [R[p[i]] if i != x else 0 for i in range(0, sys.n + 1)]
-    ret -= sys.LinConG()
+    ret -= sys.curModel()
     return ret
 
 def LKA(sys, R):
@@ -28,7 +28,7 @@ def LKA(sys, R):
         s.remove(change)
     print("============LK=============")
     sys.R = [R[p[i]] for i in range(0, n + 1)]
-    print(sys.LinConG())
+    print(sys.curModel())
     print(p[1:])
 
 def metropolis(delta, Temp):
@@ -42,16 +42,16 @@ def SA(sys, R):
         x = random.randint(1, n - 1)
         y = random.randint(x + 1, n)
         sys.R = [R[p[i]] for i in range(0, n + 1)]
-        delta = sys.LinConG()
+        delta = sys.curModel()
         sys.R[x], sys.R[y] = sys.R[y], sys.R[x]
-        delta -= sys.LinConG()
+        delta -= sys.curModel()
         # delta = last - new
         if metropolis(delta, Temp) == 1:
             p[x], p[y] = p[y], p[x]
         Temp *= 0.99
     print("===============SA============")
     sys.R = [R[p[i]] for i in range(0, n + 1)]
-    print(sys.LinConG())
+    print(sys.curModel())
     print(p[1:])
 
 def bruteForce(sys, R):
@@ -60,7 +60,7 @@ def bruteForce(sys, R):
     ans = 0
     for p in list(itertools.permutations([i for i in range(1, n + 1)])):
         sys.R = [R[p[i]] if i > -1 else 0 for i in range(-1, n)]
-        tmp = sys.LinConG()
+        tmp = sys.curModel()
         if tmp > ans:
             ans = tmp
             perm = list(p)
@@ -96,22 +96,22 @@ def ZK(sys, R, ver):
                             idk1 = i
             if Importance(idk, p, sys, R) > Importance(idk1, p, sys, R):
                 sys.R = [R[p[i]] for i in range(0, n + 1)]
-                delta = -sys.LinConG()
+                delta = -sys.curModel()
                 sys.R[idk], sys.R[idk1] = sys.R[idk1], sys.R[idk]
-                delta += sys.LinConG()
+                delta += sys.curModel()
                 if delta > 0:
                     p[idk], p[idk1] = p[idk1], p[idk]
                     update = True
     print("==============ZK Type" + ver + "=============")
     sys.R = [R[p[i]] for i in range(0, n + 1)]
-    print(sys.LinConG())
+    print(sys.curModel())
     print(p[1:])
 
 def main():
-    n = 10
-    k = 5
+    n = 7
+    k = 2
     R = [1 - random.random() * 0.2 for i in range(0, n)]
-    R[1 :] = sorted(R)
+    R[1:] = sorted(R)
     sys = model.System(n, k, R)
     LKA(sys, R)
     ZK(sys, R, "A")
