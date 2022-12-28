@@ -332,7 +332,7 @@ def GA():
     return solution_fitness, solution
 
 def main():
-    n = 5
+    n = 7
     k = 3
     testCases = 100
     avgLKA, avgLKB, avgLKC, avgLKD = 0, 0, 0, 0
@@ -353,33 +353,33 @@ def main():
 
         mx, mn = BF().bruteForce()
 
-        # a, p1 = LK().LKA()
-        # avgLKA += (a - mn) / (mx - mn)
-        # b, p2 = LK().LKB()
-        # avgLKB += (b - mn) / (mx - mn)
-        # c, p = LK().LKC()
-        # avgLKC += (c - mn) / (mx - mn)
-        # d, p = LK().LKD()
-        # avgLKD += (d - mn) / (mx - mn)
-        #
-        # a1, p = ZK().ZKA(p1[:])
-        # a2, p = ZK().ZKA(p2[:])
-        # avgZKA += (max(a1, a2) - mn) / (mx - mn)
-        # b1, p = ZK().ZKB(p1[:])
-        # b2, p = ZK().ZKB(p2[:])
-        # avgZKB += (max(b1, b2) - mn) / (mx - mn)
-        # c1, p = ZK().ZKC(p1[:])
-        # c2, p = ZK().ZKC(p2[:])
-        # avgZKC += (max(c1, c2) - mn) / (mx - mn)
-        # d1, p = ZK().ZKD(p1[:])
-        # d2, p = ZK().ZKD(p2[:])
-        # avgZKD += (max(d1, d2) - mn) / (mx - mn)
-        #
-        # b, p = BIT().BIT()
-        # avgBIT += (b - mn) / (mx - mn)
-        #
-        # a, p = SA().SA()
-        # avgSA += (a - mn) / (mx - mn)
+        a, p1 = LK().LKA()
+        avgLKA += (a - mn) / (mx - mn)
+        b, p2 = LK().LKB()
+        avgLKB += (b - mn) / (mx - mn)
+        c, p = LK().LKC()
+        avgLKC += (c - mn) / (mx - mn)
+        d, p = LK().LKD()
+        avgLKD += (d - mn) / (mx - mn)
+
+        a1, p = ZK().ZKA(p1[:])
+        a2, p = ZK().ZKA(p2[:])
+        avgZKA += (max(a1, a2) - mn) / (mx - mn)
+        b1, p = ZK().ZKB(p1[:])
+        b2, p = ZK().ZKB(p2[:])
+        avgZKB += (max(b1, b2) - mn) / (mx - mn)
+        c1, p = ZK().ZKC(p1[:])
+        c2, p = ZK().ZKC(p2[:])
+        avgZKC += (max(c1, c2) - mn) / (mx - mn)
+        d1, p = ZK().ZKD(p1[:])
+        d2, p = ZK().ZKD(p2[:])
+        avgZKD += (max(d1, d2) - mn) / (mx - mn)
+
+        b, p = BIT().BIT()
+        avgBIT += (b - mn) / (mx - mn)
+
+        a, p = SA().SA()
+        avgSA += (a - mn) / (mx - mn)
 
         a, p = GA()
         avgGA += (a - mn) / (mx - mn)
