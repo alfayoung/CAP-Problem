@@ -45,10 +45,13 @@ class System:
         k = self.k
         f = [0 for i in range(0, n + 1)]
         f[k] = 1
+        mul, zero = 1, 0
         for i in range(1, k + 1):
             f[k] = f[k] * R[i]
-        mul = f[k]
-        zero = 0
+            if R[i] == 0:
+                zero += 1
+            else:
+                mul *= R[i]
         for i in range(k + 1, n + 1):
             f[i] = f[i - 1]
             if R[i] == 0:
@@ -78,10 +81,13 @@ class System:
             f = [0 for j in range(0, n + 1)]
             if i + k + 1 <= n:
                 f[i + k + 1] = 1
+                mul, zero = 1, 0
                 for j in range(i + 2, i + k + 2):
                     f[i + k + 1] = f[i + k + 1] * R[j]
-                mul = f[i + k + 1]
-                zero = 0
+                    if R[j] == 0:
+                        zero += 1
+                    else:
+                        mul *= R[j]
                 for j in range(i + k + 2, n + 1):
                     f[j] = f[j - 1]
                     if R[j] == 0:
@@ -92,6 +98,7 @@ class System:
                         zero -= 1
                     else:
                         mul /= R[j - k]
+                    assert(zero >= 0)
                     f[j] = f[j] + (mul if zero == 0 else 0) * (1 - R[j - k]) * (1 - f[j - k - 1])
             mulB = 1
             for j in range(n, max(n - k + 1, i + 1), -1):
@@ -128,7 +135,7 @@ class System:
             ans = ans + (-1)**bcnt * tmp
         return ans
     def curModel(self): # which model to use
-        return self.LinConF()
+        return self.LinConG()
 
 def main():
     n = 15

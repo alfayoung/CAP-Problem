@@ -23,6 +23,7 @@ double solve() {
 		for (int e = head[u]; e; e = nxt[e]) {
 			int v = tail[e];
 			f[v] = f[v] * (f[u] + (1 - f[u]) * (1 - p[u]));
+			// g[v] = g[v] + (1 - g[v]) * g[u] * p[u]
 			if (--deg[v] == 0) que.push(v);
 		}
 	}

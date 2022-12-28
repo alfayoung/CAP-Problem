@@ -7,7 +7,7 @@ class Graph: # source : 0   terminal : n + 1
         self.n = n
         self.son = [[] for i in range(0, n + 2)]
         self.deg = [0 for i in range(0, n + 2)]
-        self.R = [sympy.Symbol("r(%d)" % i) for i in range(0, n + 1)]
+        self.R = [sympy.Symbol("R[%d]" % i) for i in range(0, n + 1)]
     def addEdge(self, x, y):
         son, deg = self.son, self.deg
         if y not in son[x]:
@@ -35,7 +35,7 @@ class Graph: # source : 0   terminal : n + 1
                 if cnt > 0:
                     term /= R[i]**(cnt - 1)
             ans += term / R[0]
-        print(sympy.expand(ans))
+        return sympy.expand(ans)
 
 def main():
     n = int(input("请输入点数"))
@@ -48,7 +48,7 @@ def main():
             G.addEdge(int(x), int(y))
         except:
             raise IOError("输入的不是合法的边！")
-    G.solve()
+    print(G.solve())
 
 if __name__ == "__main__":
     main()

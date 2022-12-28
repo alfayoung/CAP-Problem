@@ -2,15 +2,15 @@ import sympy
 import time
 
 class System:
-    def __init__(self, n):
+    def __init__(self, n, k):
         self.R = [0]
         self.n = n
+        self.k = k
         for i in range(1, n + 1):
             s = "r(" + str(i) + ")"
             self.R.append(sympy.Symbol(s))
-    def G(self, k):
-        R = self.R
-        n = self.n
+    def G(self):
+        R, n, k = self.R, self.n, self.k
         f = [0 for i in range(0, k + 1)]
         f[0] = 1
         for i in range(1, n + 1):
@@ -20,15 +20,14 @@ class System:
             f[0] = f[0] * (1 - R[i])
         ans = sympy.expand(f[k])
         return ans
-    def F(self, k):
-        n = self.n
+    def F(self):
+        n, k = self.n, self.k
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
-        ans = 1 - self.G(k)
+        ans = 1 - self.G()
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
         return ans
-    def LinConGBackpack(self, k):
-        R = self.R
-        n = self.n
+    def LinConGBackpack(self):
+        R, n, k = self.R, self.n, self.k
         f = [0 for i in range(0, k + 1)]
         f[0] = 1
         for i in range(1, n + 1):
@@ -39,9 +38,8 @@ class System:
             f[0] = f0
         ans = sympy.expand(f[k])
         return ans
-    def LinConG(self, k):
-        R = self.R
-        n = self.n
+    def LinConG(self):
+        R, n, k = self.R, self.n, self.k
         f = [0 for i in range(0, n + 1)]
         f[k] = 1
         for i in range(1, k + 1):
@@ -53,16 +51,15 @@ class System:
             f[i] = f[i] + mul * (1 - R[i - k]) * (1 - f[i - k - 1])
         ans = sympy.expand(f[n])
         return ans
-    def LinConF(self, k):
-        n = self.n
+    def LinConF(self):
+        n, k = self.n, self.k
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
-        ans = 1 - self.LinConG(k)
+        ans = 1 - self.LinConG()
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
         return ans
-    def CycleG(self, k): # n >= 2
-        R = self.R
-        n = self.n
-        ans = self.LinConG(k)
+    def CycleG(self): # n >= 2
+        R, n, k = self.R, self.n, self.k
+        ans = self.LinConG()
         mulF = 1
         for i in range(1, k):
             mulF = mulF * R[i]
@@ -86,15 +83,14 @@ class System:
                         ans = ans + mulF * mulB * (1 - R[i + 1]) * (1 - R[j - 1]) * (1 - f[j - 2])
         ans = sympy.expand(ans)
         return ans
-    def CycleF(self, k):
-        n = self.n
+    def CycleF(self):
+        n, k = self.n, self.k
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
-        ans = 1 - self.CycleG(k)
+        ans = 1 - self.CycleG()
         self.R = [1 - self.R[i] for i in range(0, n + 1)]
         return ans
-    def CycleInEx(self, k):
-        R = self.R
-        n = self.n
+    def CycleInEx(self):
+        R, n, k = self.R, self.n, self.k
         for i in range(1, n + 1):
             R.append(R[i])
         ans = 0
@@ -112,17 +108,15 @@ class System:
                     bcnt += 1
             ans = ans + (-1)**bcnt * tmp
         return ans
+    def curModel(self):
+        return self.LinConG()
 
 def main():
-    n = 15
-    m = 6
-    S = System(n)
+    n = 5
+    m = 2
+    S = System(n, m)
     start = time.perf_counter()
-    print(S.CycleInEx(m))
-    end = time.perf_counter()
-    print("Time = ", end - start, "s")
-    start = time.perf_counter()
-    print(S.CycleG(m))
+    print(S.curModel())
     end = time.perf_counter()
     print("Time = ", end - start, "s")
     # print(CycleG(n, m))
