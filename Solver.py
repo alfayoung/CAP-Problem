@@ -3,11 +3,7 @@ import random
 import math
 import numpy
 import pygad
-import sys as lim
 import Models as model
-
-def fetch():
-    return sys, R
 
 def Importance(x, p):
     sys.R = [R[p[i]] if i != x else 1 for i in range(0, sys.n + 1)]
@@ -261,7 +257,6 @@ class BIT:
 
 # Genetic Algorithm
 def fitnessFunc(solution, solution_idx):
-    sys, R = fetch()
     sys.R = [R[solution[i]] if i > -1 else 0 for i in range(-1, sys.n)]
     return sys.curModel()
 def findFa(x, fa):
@@ -307,7 +302,6 @@ def onGeneration(instance):
     tmp, p = ZK().ZKD(p[:])
     pop[i, :] = numpy.array(p[1:])
 def GA():
-    sys, R = fetch()
     instance = pygad.GA(num_generations=100,
                         num_parents_mating=2,
                         sol_per_pop=10,
